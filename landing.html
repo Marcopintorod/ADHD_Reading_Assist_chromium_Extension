@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Word Reader — Guía Maestra y Landing Page</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --surface: #111827;
+      --surface-card: #1e293b;
+      --surface-hover: #273549;
+      --border: #334155;
+      --border-light: rgba(255, 255, 255, 0.1);
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-glow: rgba(59, 130, 246, 0.4);
+      --accent-green: #10b981;
+      --accent-yellow: #facc15;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Fondo degradado suave */
+    .bg-glow {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(15, 23, 42, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Barra de navegación */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    .brand-logo svg {
+      width: 22px;
+      height: 22px;
+      fill: #ffffff;
+    }
+
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .nav-tools {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Switch de idioma en la Landing */
+    .lang-segmented {
+      display: inline-flex;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-cta:hover {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.5);
+    }
+
+    
+    /* Banner y Botones de Descarga al principio */
+    .download-hero-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(37, 99, 235, 0.14));
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 16px;
+      padding: 24px 28px;
+      max-width: 800px;
+      margin: 0 auto 36px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .download-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .btn-download-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.4);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-download-main:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.6);
+    }
+
+    .btn-github-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.9);
+      color: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-github-secondary:hover {
+      background: var(--surface-hover);
+      border-color: #64748b;
+      transform: translateY(-1px);
+    }
+
+    .download-steps-mini {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 12px;
+      width: 100%;
+    }
+
+    .download-steps-mini span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .step-dot {
+      background: #10b981;
+      color: #090d16;
+      font-weight: 800;
+      font-size: 10.5px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Contenedor principal */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Sección Hero */
+    .hero {
+      text-align: center;
+      padding: 40px 0 60px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+    }
+
+    .hero-title {
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto 34px;
+      line-height: 1.6;
+    }
+
+    /* Widget Interactivo Demo en Vivo en el Hero */
+    .interactive-demo-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      max-width: 800px;
+      margin: 0 auto 60px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      text-align: left;
+      position: relative;
+    }
+
+    .demo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .demo-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .demo-instruction {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .demo-instruction svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--accent-yellow);
+    }
+
+    .demo-box {
+      background: #0b1120;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      font-size: 18px;
+      line-height: 1.8;
+      user-select: none;
+      cursor: default;
+      transition: border-color 0.2s ease;
+    }
+
+    .demo-box:hover {
+      border-color: var(--primary);
+    }
+
+    .demo-word {
+      display: inline-block;
+      padding: 2px 4px;
+      margin: 1px 2px;
+      border-radius: 4px;
+      transition: all 0.12s ease;
+      cursor: pointer;
+    }
+
+    .demo-word:hover {
+      outline: 2px dashed #3b82f6;
+    }
+
+    .demo-word.active-word {
+      background-color: #ffeb3b;
+      color: #111827 !important;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(250, 204, 21, 0.4);
+    }
+
+    .demo-lead {
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    .demo-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Grilla de Funcionalidades */
+    .section-heading {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 20px;
+      margin-bottom: 70px;
+    }
+
+    .feature-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.25s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card:hover {
+      border-color: #475569;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .feature-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 10px;
+      letter-spacing: -0.2px;
+    }
+
+    .card-text {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .card-badge {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      width: fit-content;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* Tabla de atajos */
+    .shortcuts-section {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 70px;
+    }
+
+    .shortcuts-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      text-align: left;
+    }
+
+    .shortcuts-table th {
+      padding: 12px 16px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .shortcuts-table td {
+      padding: 16px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+      color: #e2e8f0;
+    }
+
+    .shortcuts-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    kbd {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid #475569;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Pasos de Instalación */
+    .install-section {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 60px;
+    }
+
+    .steps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 26px;
+    }
+
+    .step-box {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .step-box h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .step-box p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Pie de página */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 32px;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .shortcuts-table th, .shortcuts-table td {
+        padding: 10px;
+      }
+      .shortcuts-section {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+
+  <!-- Barra de navegación -->
+  <nav>
+    <div class="brand-wrap">
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1 data-i18n="navTitle">Scroll Word Reader</h1>
+        <p data-i18n="navSub">Brave & Chromium Extension (Manifest V3)</p>
+      </div>
+    </div>
+
+    <div class="nav-tools">
+      <!-- Selector de Idioma -->
+      <div class="lang-segmented" role="radiogroup">
+        <button type="button" class="lang-btn active" id="btnLangEs" data-lang="es">🇪🇸 Español</button>
+        <button type="button" class="lang-btn" id="btnLangEn" data-lang="en">🇬🇧 English</button>
+      </div>
+
+      <a href="viewer.html" target="_blank" class="btn-cta" data-i18n="openViewerBtn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+        </svg>
+        <span data-i18n="navViewerText">Abrir Visor</span>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-badge" data-i18n="heroBadge">⚡ Lectura Asistida con la Rueda del Ratón</div>
+      <h2 class="hero-title" data-i18n="heroTitle">Domina la lectura sin esfuerzo palabra por palabra</h2>
+      <p class="hero-subtitle" data-i18n="heroSubtitle">
+        Diseñada para Brave y Chromium, Scroll Word Reader convierte cualquier página web, documento Word (.docx), PDF o Google Doc en una experiencia de lectura interactiva controlada con tu dedo índice.
+      </p>
+
+      <!-- Zona de Descarga Directa al Principio -->
+      <div class="download-hero-box" id="downloadSection">
+        <div class="download-actions">
+          <a href="scroll-word-reader.zip" id="btnDownloadZip" download class="btn-download-main">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span data-i18n="downloadZipBtn">Descargar Carpeta de la Extensión (.ZIP)</span>
+          </a>
+
+          <a href="#installGuide" id="btnViewRepo" class="btn-github-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span data-i18n="githubRepoBtn">Ver cómo instalar en 30 seg</span>
+          </a>
+        </div>
+
+        <div class="download-steps-mini">
+          <span><b class="step-dot">1</b> <span data-i18n="miniStep1">Descarga y descomprime el .ZIP</span></span>
+          <span><b class="step-dot">2</b> <span data-i18n="miniStep2">Abre <code>chrome://extensions</code> y activa Modo Desarrollador</span></span>
+          <span><b class="step-dot">3</b> <span data-i18n="miniStep3">Pulsa «Cargar descomprimida» y elige la carpeta</span></span>
+        </div>
+      </div>
+
+      <!-- Mini Demo Interactivo en Vivo -->
+      <div class="interactive-demo-card">
+        <div class="demo-header">
+          <span class="demo-tag" data-i18n="demoTag">Simulador en Vivo</span>
+          <span class="demo-instruction">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <span data-i18n="demoHint">Pasa el ratón por el recuadro y gira la rueda, o haz clic en cualquier palabra:</span>
+          </span>
+        </div>
+
+        <div class="demo-box" id="demoBox" tabindex="0">
+          <!-- Palabras interactivas generadas dinámicamente -->
+        </div>
+
+        <div class="demo-footer">
+          <span id="demoStatus" data-i18n="demoStatus">Palabra 1 de 20 (Progreso: 5%)</span>
+          <span data-i18n="demoShortcutTip">Atajo global: <kbd>Alt</kbd> + <kbd>R</kbd></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grilla de Características -->
+    <section>
+      <div class="section-heading">
+        <h3 class="section-title" data-i18n="featuresTitle">Arsenal Completo de Funcionalidades</h3>
+        <p class="section-desc" data-i18n="featuresDesc">Cada herramienta ha sido creada para maximizar la velocidad de lectura, reducir la fatiga visual y mantener tu concentración al 100%.</p>
+      </div>
+
+      <div class="features-grid">
+
+        <!-- 1. Control por rueda del ratón y ventana deslizante -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f1Title">1. Control por Rueda y Ventana Deslizante</h4>
+          <p class="card-text" data-i18n="f1Text">
+            Avanza de forma ultra-fluida palabra por palabra: incluso cuando configuras varias palabras subrayadas a la vez (1 a 10), la ventana se desplaza de una en una en lugar de saltar el bloque entero. La sensibilidad acumula píxeles de desplazamiento (10 a 200 px) para un tacto suave y sin saltos bruscos.
+          </p>
+          <span class="card-badge" data-i18n="f1Badge">Ventana Deslizante 1 a 1</span>
+        </div>
+
+        <!-- 2. Modo de desplazamiento (Natural vs Centrado) -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f2Title">2. Centrado Continuo vs Margen Natural</h4>
+          <p class="card-text" data-i18n="f2Text">
+            Configura el comportamiento del scroll a tu gusto: <strong>Margen Natural</strong> hace scroll centrado suave solo cuando la palabra se aproxima a los límites superior/inferior (18%-82%). <strong>Siempre en el medio</strong> mantiene la palabra resaltada fijada exactamente en el centro vertical de tu vista.
+          </p>
+          <span class="card-badge" data-i18n="f2Badge">Toggle en Configuración</span>
+        </div>
+
+        <!-- 3. Bionic Reading Personalizable -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f3Title">3. Lectura Biónica Personalizable</h4>
+          <p class="card-text" data-i18n="f3Text">
+            Guía la fijación ocular remarcando el principio de las palabras de más de dos letras. Elige primera letra en <strong>Negrita</strong>, en <strong>MAYÚSCULA</strong>, y regula qué porcentaje de la palabra se remarca con un control deslizante del 1% al 70%.
+          </p>
+          <span class="card-badge" data-i18n="f3Badge">Regulación del 1% al 70%</span>
+        </div>
+
+        <!-- 4. Modo Túnel (Focus Blur) -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f4Title">4. Modo Túnel (Focus Blur)</h4>
+          <p class="card-text" data-i18n="f4Text">
+            Aplica una máscara de desenfoque progresivo arriba y abajo del área activa donde estás leyendo. Regula la apertura de la ventana de lectura (80 a 360 px) y la intensidad del difuminado (2 a 25 px) para aislar por completo las distracciones.
+          </p>
+          <span class="card-badge" data-i18n="f4Badge">Apertura y Blur ajustables</span>
+        </div>
+
+        <!-- 5. Guía Cromática BeeLine -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(236, 72, 153, 0.15); color: #f472b6;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f5Title">5. Guía Cromática BeeLine Reader</h4>
+          <p class="card-text" data-i18n="f5Text">
+            Genera un degradado de color fluido que conecta el final de cada renglón con el principio del renglón siguiente. El ojo humano sigue el rastro cromático y nunca vuelve a leer la misma línea dos veces. Colores e intensidad 100% configurables.
+          </p>
+          <span class="card-badge" data-i18n="f5Badge">Gradiente Interlínea</span>
+        </div>
+
+        <!-- 6. Visor Propio (PDF y Word DOCX) -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f6Title">6. Visor Local para PDF y Word DOCX</h4>
+          <p class="card-text" data-i18n="f6Text">
+            Dado que Chromium bloquea scripts de contenido en su visor PDF nativo, creamos un visor interno propio (<code>viewer.html</code>) con PDF.js y Mammoth.js. Arrastra cualquier archivo local y léelo al instante con tipografía editorial.
+          </p>
+          <span class="card-badge" data-i18n="f6Badge">100% Privado y Local (Sin Servidores)</span>
+        </div>
+
+        <!-- 7. Integración con Google Docs -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(34, 197, 94, 0.15); color: #4ade80;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f7Title">7. Compatibilidad con Google Docs</h4>
+          <p class="card-text" data-i18n="f7Text">
+            Google Docs renderiza texto en Canvas 2D en vez del DOM tradicional. Scroll Word Reader detecta el documento activo, ofrece un botón flotante directo y descarga el contenido limpio en el visor con un solo clic.
+          </p>
+          <span class="card-badge" data-i18n="f7Badge">Detección Automática de ID</span>
+        </div>
+
+        <!-- 8. Recorrido con Color y Cambio de Foco por Clic -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21a9 9 0 0 0 9-9c0-4.97-4.03-9-9-9s-9 4.03-9 9a9 9 0 0 0 9 9z"/><path d="M12 7v5l3 3"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f8Title">8. Recorrido de Color y Clic de Foco</h4>
+          <p class="card-text" data-i18n="f8Text">
+            Alterna con <kbd>Alt</kbd> + <kbd>C</kbd> entre el resaltado con color de fondo o un contorno discreto. Además, haz clic en cualquier palabra de cualquier párrafo para saltar de inmediato el cursor de lectura a ese punto.
+          </p>
+          <span class="card-badge" data-i18n="f8Badge">Atajo Alt + C & Clic Directo</span>
+        </div>
+
+        <!-- 9. Felicitaciones por Progreso -->
+        <div class="feature-card">
+          <div class="feature-icon-wrap" style="background: rgba(250, 204, 21, 0.15); color: #fde047;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <h4 class="card-title" data-i18n="f9Title">9. Celebración de Progreso</h4>
+          <p class="card-text" data-i18n="f9Text">
+            Mantente motivado durante lecturas largas. Cada vez que alcanzas un hito (cada 10%, 20%, 25% o 50% del texto), la barra de progreso emite un destello dorado y se dispara una alegre lluvia de confeti celebratorio.
+          </p>
+          <span class="card-badge" data-i18n="f9Badge">Hitos Configurables</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Tabla de Atajos de Teclado -->
+    <section class="shortcuts-section">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+        <h3 class="section-title" style="margin-bottom: 0;" data-i18n="shortcutsTitle">Atajos de Teclado y Gestos</h3>
+        <span class="hero-badge" style="margin-bottom: 0;" data-i18n="shortcutsBadge">100% Accesible</span>
+      </div>
+      <p class="section-desc" style="text-align: left; margin: 0 0 16px;" data-i18n="shortcutsDesc">Controla todo el flujo sin despegar la mano del ratón o el teclado:</p>
+
+      <table class="shortcuts-table">
+        <thead>
+          <tr>
+            <th data-i18n="thAction">Acción</th>
+            <th data-i18n="thControl">Control / Atajo</th>
+            <th data-i18n="thDescription">Descripción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong data-i18n="sc1Action">Activar / Desactivar Lector</strong></td>
+            <td><kbd>Alt</kbd> + <kbd>R</kbd></td>
+            <td data-i18n="sc1Desc">Alterna el modo lectura tanto en cualquier web como en el visor de documentos. También disponible mediante el botón flotante circular.</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="sc2Action">Alternar Recorrido con Color</strong></td>
+            <td><kbd>Alt</kbd> + <kbd>C</kbd></td>
+            <td data-i18n="sc2Desc">Conmuta entre el color de fondo lleno o el contorno perimetral fino para una lectura más minimalista.</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="sc3Action">Avanzar Palabras</strong></td>
+            <td><kbd>Giro Rueda Abajo (Scroll Down)</kbd></td>
+            <td data-i18n="sc3Desc">Avanza a la siguiente palabra o bloque de palabras configurado. Realiza auto-scroll suave hacia el centro.</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="sc4Action">Retroceder Palabras</strong></td>
+            <td><kbd>Giro Rueda Arriba (Scroll Up)</kbd></td>
+            <td data-i18n="sc4Desc">Retrocede inmediatamente a las palabras anteriores en el flujo de lectura.</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="sc5Action">Cambiar Foco Instantáneo</strong></td>
+            <td><kbd>Clic Izquierdo en Palabra</kbd></td>
+            <td data-i18n="sc5Desc">Haz clic en cualquier palabra del texto para transportar el cursor de lectura y el modo túnel a esa posición exacta.</td>
+          </tr>
+          <tr>
+            <td><strong data-i18n="sc6Action">Cambiar Idioma (ES / EN)</strong></td>
+            <td><kbd>Top Toggle en Popup</kbd></td>
+            <td data-i18n="sc6Desc">Cambia instantáneamente toda la extensión y sus notificaciones entre Español e Inglés.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Guía de Instalación Rápida -->
+    <section class="install-section" id="installGuide">
+      <div class="section-heading" style="text-align: left; margin-bottom: 20px;">
+        <h3 class="section-title" data-i18n="installTitle">Cómo Instalar y Usar en Brave / Chromium</h3>
+        <p class="section-desc" style="text-align: left; margin: 0;" data-i18n="installDesc">Sin tiendas de aplicaciones ni procesos complejos. Todo el código fuente está listo en tu equipo:</p>
+      </div>
+
+      <div class="steps-list">
+        <div class="step-box">
+          <div class="step-number">1</div>
+          <h4 data-i18n="st1Title">Abre Extensiones</h4>
+          <p data-i18n="st1Desc">Escribe <code>brave://extensions</code> (o <code>chrome://extensions</code>) en la barra de direcciones de tu navegador.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">2</div>
+          <h4 data-i18n="st2Title">Modo Desarrollador</h4>
+          <p data-i18n="st2Desc">Activa la palanca <strong>Modo de desarrollador</strong> en la esquina superior derecha.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">3</div>
+          <h4 data-i18n="st3Title">Cargar Descomprimida</h4>
+          <p data-i18n="st3Desc">Pulsa <strong>Cargar descomprimida</strong> y selecciona la carpeta del proyecto <code>Cosa</code>.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-number">4</div>
+          <h4 data-i18n="st4Title">¡Listo para Leer!</h4>
+          <p data-i18n="st4Desc">Fija el icono en la barra superior. Pulsa <kbd>Alt</kbd> + <kbd>R</kbd> en cualquier página web para comenzar.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Scroll Word Reader — Proyecto desarrollado para lectura rápida asistida en Chromium Manifest V3.</p>
+    <p style="margin-top: 6px;">
+      <a href="viewer.html" target="_blank" data-i18n="footerViewerLink">Visor de Documentos (PDF/DOCX)</a> • 
+      <a href="popup.html" target="_blank" data-i18n="footerPopupLink">Configuración Popup</a>
+    </p>
+  </footer>
+
+  <script>
+    // Diccionario bilingüe para la Landing Page
+    const LANDING_I18N = {
+      es: {
+        navTitle: 'Scroll Word Reader',
+        navSub: 'Extensión para Brave y Chromium (Manifest V3)',
+        openViewerBtn: 'Abrir Visor',
+        navViewerText: 'Abrir Visor',
+        heroBadge: '⚡ Lectura Asistida con la Rueda del Ratón',
+        heroTitle: 'Domina la lectura sin esfuerzo palabra por palabra',
+        heroSubtitle: 'Diseñada para Brave y Chromium, Scroll Word Reader convierte cualquier página web, documento Word (.docx), PDF o Google Doc en una experiencia de lectura interactiva controlada con tu dedo índice.',
+        downloadZipBtn: 'Descargar Carpeta de la Extensión (.ZIP)',
+        githubRepoBtn: 'Ver cómo instalar en 30 seg',
+        miniStep1: 'Descarga y descomprime el .ZIP',
+        miniStep2: 'Abre chrome://extensions y activa Modo Desarrollador',
+        miniStep3: 'Pulsa «Cargar descomprimida» y elige la carpeta',
+        demoTag: 'Simulador en Vivo',
+        demoHint: 'Pasa el ratón por el recuadro y gira la rueda, o haz clic en cualquier palabra:',
+        demoShortcutTip: 'Atajo global: Alt + R',
+        featuresTitle: 'Arsenal Completo de Funcionalidades',
+        featuresDesc: 'Cada herramienta ha sido creada para maximizar la velocidad de lectura, reducir la fatiga visual y mantener tu concentración al 100%.',
+        f1Title: '1. Control por Rueda y Ventana Deslizante',
+        f1Text: 'Avanza de forma ultra-fluida palabra por palabra: incluso cuando configuras varias palabras subrayadas a la vez (1 a 10), la ventana se desplaza de una en una en lugar de saltar el bloque entero. La sensibilidad acumula píxeles de desplazamiento (10 a 200 px) para un tacto suave y sin saltos bruscos.',
+        f1Badge: 'Ventana Deslizante 1 a 1',
+        f2Title: '2. Centrado Continuo vs Margen Natural',
+        f2Text: 'Configura el comportamiento del scroll a tu gusto: Margen Natural hace scroll centrado suave solo cuando la palabra se aproxima a los límites superior/inferior (18%-82%). Siempre en el medio mantiene la palabra resaltada fijada exactamente en el centro vertical de tu vista.',
+        f2Badge: 'Toggle en Configuración',
+        f3Title: '3. Lectura Biónica Personalizable',
+        f3Text: 'Guía la fijación ocular remarcando el principio de las palabras de más de dos letras. Elige primera letra en Negrita, en MAYÚSCULA, y regula qué porcentaje de la palabra se remarca con un control deslizante del 1% al 70%.',
+        f3Badge: 'Regulación del 1% al 70%',
+        f4Title: '4. Modo Túnel (Focus Blur)',
+        f4Text: 'Aplica una máscara de desenfoque progresivo arriba y abajo del área activa donde estás leyendo. Regula la apertura de la ventana de lectura (80 a 360 px) y la intensidad del difuminado (2 a 25 px) para aislar por completo las distracciones.',
+        f4Badge: 'Apertura y Blur ajustables',
+        f5Title: '5. Guía Cromática BeeLine Reader',
+        f5Text: 'Genera un degradado de color fluido que conecta el final de cada renglón con el principio del renglón siguiente. El ojo humano sigue el rastro cromático y nunca vuelve a leer la misma línea dos veces. Colores e intensidad 100% configurables.',
+        f5Badge: 'Gradiente Interlínea',
+        f6Title: '6. Visor Local para PDF y Word DOCX',
+        f6Text: 'Dado que Chromium bloquea scripts de contenido en su visor PDF nativo, creamos un visor interno propio (viewer.html) con PDF.js y Mammoth.js. Arrastra cualquier archivo local y léelo al instante con tipografía editorial.',
+        f6Badge: '100% Privado y Local (Sin Servidores)',
+        f7Title: '7. Compatibilidad con Google Docs',
+        f7Text: 'Google Docs renderiza texto en Canvas 2D en vez del DOM tradicional. Scroll Word Reader detecta el documento activo, ofrece un botón flotante directo y descarga el contenido limpio en el visor con un solo clic.',
+        f7Badge: 'Detección Automática de ID',
+        f8Title: '8. Recorrido de Color y Clic de Foco',
+        f8Text: 'Alterna con Alt + C entre el resaltado con color de fondo o un contorno discreto. Además, haz clic en cualquier palabra de cualquier párrafo para saltar de inmediato el cursor de lectura a ese punto.',
+        f8Badge: 'Atajo Alt + C & Clic Directo',
+        f9Title: '9. Celebración de Progreso',
+        f9Text: 'Mantente motivado durante lecturas largas. Cada vez que alcanzas un hito (cada 10%, 20%, 25% o 50% del texto), la barra de progreso emite un destello dorado y se dispara una alegre lluvia de confeti celebratorio.',
+        f9Badge: 'Hitos Configurables',
+        shortcutsTitle: 'Atajos de Teclado y Gestos',
+        shortcutsBadge: '100% Accesible',
+        shortcutsDesc: 'Controla todo el flujo sin despegar la mano del ratón o el teclado:',
+        thAction: 'Acción',
+        thControl: 'Control / Atajo',
+        thDescription: 'Descripción',
+        sc1Action: 'Activar / Desactivar Lector',
+        sc1Desc: 'Alterna el modo lectura tanto en cualquier web como en el visor de documentos. También disponible mediante el botón flotante circular.',
+        sc2Action: 'Alternar Recorrido con Color',
+        sc2Desc: 'Conmuta entre el color de fondo lleno o el contorno perimetral fino para una lectura más minimalista.',
+        sc3Action: 'Avanzar Palabras',
+        sc3Desc: 'Avanza a la siguiente palabra o bloque de palabras configurado. Realiza auto-scroll suave hacia el centro.',
+        sc4Action: 'Retroceder Palabras',
+        sc4Desc: 'Retrocede inmediatamente a las palabras anteriores en el flujo de lectura.',
+        sc5Action: 'Cambiar Foco Instantáneo',
+        sc5Desc: 'Haz clic en cualquier palabra del texto para transportar el cursor de lectura y el modo túnel a esa posición exacta.',
+        sc6Action: 'Cambiar Idioma (ES / EN)',
+        sc6Desc: 'Cambia instantáneamente toda la extensión y sus notificaciones entre Español e Inglés.',
+        installTitle: 'Cómo Instalar y Usar en Brave / Chromium',
+        installDesc: 'Sin tiendas de aplicaciones ni procesos complejos. Todo el código fuente está listo en tu equipo:',
+        st1Title: 'Abre Extensiones',
+        st1Desc: 'Escribe brave://extensions (o chrome://extensions) en la barra de direcciones de tu navegador.',
+        st2Title: 'Modo Desarrollador',
+        st2Desc: 'Activa la palanca Modo de desarrollador en la esquina superior derecha.',
+        st3Title: 'Cargar Descomprimida',
+        st3Desc: 'Pulsa Cargar descomprimida y selecciona la carpeta del proyecto Cosa.',
+        st4Title: '¡Listo para Leer!',
+        st4Desc: 'Fija el icono en la barra superior. Pulsa Alt + R en cualquier página web para comenzar.',
+        footerViewerLink: 'Visor de Documentos (PDF/DOCX)',
+        footerPopupLink: 'Configuración Popup'
+      },
+      en: {
+        navTitle: 'Scroll Word Reader',
+        navSub: 'Brave & Chromium Extension (Manifest V3)',
+        openViewerBtn: 'Open Viewer',
+        navViewerText: 'Open Viewer',
+        heroBadge: '⚡ Assisted Reading with Mouse Wheel',
+        heroTitle: 'Master effortless reading word by word',
+        heroSubtitle: 'Designed for Brave and Chromium, Scroll Word Reader turns any web page, Word document (.docx), PDF, or Google Doc into an interactive reading experience driven by your index finger.',
+        downloadZipBtn: 'Download Extension Folder (.ZIP)',
+        githubRepoBtn: 'How to install in 30 sec',
+        miniStep1: 'Download and unzip the .ZIP file',
+        miniStep2: 'Open chrome://extensions & enable Developer Mode',
+        miniStep3: 'Click "Load unpacked" and select the folder',
+        demoTag: 'Live Simulator',
+        demoHint: 'Hover inside the box and scroll the mouse wheel, or click any word:',
+        demoShortcutTip: 'Global shortcut: Alt + R',
+        featuresTitle: 'Full Feature Arsenal',
+        featuresDesc: 'Every tool has been crafted to boost reading speed, minimize eye strain, and keep your focus pinned on what matters.',
+        f1Title: '1. Mouse Wheel & Sliding Window',
+        f1Text: 'Ultra-fluid word-by-word advancement: even when multiple words are highlighted at once (1 to 10), the window slides smoothly one word at a time instead of jumping the whole block. Sensitivity accumulates wheel delta (10 to 200 px) for natural tactile feedback.',
+        f1Badge: '1-by-1 Sliding Window',
+        f2Title: '2. Always Centered vs Natural Margins',
+        f2Text: 'Configure scroll behavior: Natural Margins performs smooth centered scrolling only when the active word approaches top/bottom thresholds (18%-82%). Always Centered keeps the active word continuously pinned in the vertical middle of your view.',
+        f2Badge: 'Settings Toggle',
+        f3Title: '3. Customizable Bionic Reading',
+        f3Text: 'Guides ocular fixation by highlighting the beginning of words longer than 2 letters. Choose Bold, UPPERCASE, and adjust what percentage of the word is emphasized with a slider (1% to 70%).',
+        f3Badge: '1% to 70% Fixation Range',
+        f4Title: '4. Tunnel Mode (Focus Blur)',
+        f4Text: 'Applies progressive blur masks above and below your active reading aperture. Tune reading window size (80 to 360 px) and blur strength (2 to 25 px) to eliminate all peripheral distractions.',
+        f4Badge: 'Aperture & Blur Controls',
+        f5Title: '5. BeeLine Reader Feature',
+        f5Text: 'Renders an eye-guiding chromatic gradient connecting line endings to the next line start. Never lose your place or re-read the same sentence again. Custom start/end colors and intensity.',
+        f5Badge: 'Inter-line Color Gradient',
+        f6Title: '6. Local Viewer for PDF & Word DOCX',
+        f6Text: 'Since Chromium blocks content scripts on native PDF viewers, we built a dedicated internal viewer (viewer.html) with local PDF.js and Mammoth.js. Drop files and read with editorial typography.',
+        f6Badge: '100% Offline & Private',
+        f7Title: '7. Native Google Docs Support',
+        f7Text: 'Google Docs renders text on HTML5 2D Canvas instead of standard DOM. Scroll Word Reader detects active Google Docs, offers a floating shortcut, and opens clean extracted text with one click.',
+        f7Badge: 'Automatic Doc ID Detection',
+        f8Title: '8. Color Trail & Click to Focus',
+        f8Text: 'Toggle with Alt + C between solid background highlight and subtle border outline. Click any word in any paragraph to instantly warp the reading focus right there.',
+        f8Badge: 'Alt + C & Word Click Delegation',
+        f9Title: '9. Progress Celebration',
+        f9Text: 'Stay energized throughout long reading sessions. When you hit milestones (every 10%, 20%, 25%, or 50%), the progress bar pulses with gold brilliance and celebratory confetti cascades across the screen.',
+        f9Badge: 'Configurable Milestones',
+        shortcutsTitle: 'Keyboard Shortcuts & Gestures',
+        shortcutsBadge: '100% Accessible',
+        shortcutsDesc: 'Control every aspect of your reading without moving away from your mouse or keyboard:',
+        thAction: 'Action',
+        thControl: 'Shortcut / Control',
+        thDescription: 'Description',
+        sc1Action: 'Toggle Reading Mode',
+        sc1Desc: 'Toggles reader on any web page or inside the document viewer. Also available via the circular floating button.',
+        sc2Action: 'Toggle Color Trail',
+        sc2Desc: 'Switches between solid background highlighting and clean border outline for minimal reading.',
+        sc3Action: 'Advance Words',
+        sc3Desc: 'Advances to the next word or group of words. Smoothly scrolls the viewport toward the center.',
+        sc4Action: 'Step Back Words',
+        sc4Desc: 'Immediately steps backward to preceding words in the document flow.',
+        sc5Action: 'Instant Click Focus',
+        sc5Desc: 'Click any word to instantly move the reading focus and tunnel aperture right there.',
+        sc6Action: 'Switch Language (ES / EN)',
+        sc6Desc: 'Instantly toggle the entire extension interface, tooltips, and toasts between Spanish and English.',
+        installTitle: 'How to Install & Use in Brave / Chromium',
+        installDesc: 'No webstore needed. All source code is pre-compiled and ready on your machine:',
+        st1Title: 'Open Extensions',
+        st1Desc: 'Type brave://extensions (or chrome://extensions) into your address bar.',
+        st2Title: 'Developer Mode',
+        st2Desc: 'Toggle the Developer mode switch in the top right corner.',
+        st3Title: 'Load Unpacked',
+        st3Desc: 'Click Load unpacked and select this project folder: Cosa.',
+        st4Title: 'Ready to Read!',
+        st4Desc: 'Pin the extension icon to your browser bar. Press Alt + R on any website to begin.',
+        footerViewerLink: 'Document Viewer (PDF/DOCX)',
+        footerPopupLink: 'Popup Settings'
+      }
+    };
+
+    let activeLang = 'es';
+
+    function setLandingLanguage(lang) {
+      activeLang = (lang === 'en') ? 'en' : 'es';
+      const dict = LANDING_I18N[activeLang];
+
+      document.getElementById('btnLangEs').classList.toggle('active', activeLang === 'es');
+      document.getElementById('btnLangEn').classList.toggle('active', activeLang === 'en');
+
+      document.querySelectorAll('[data-i18n]').forEach((el) => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+
+      renderDemoWords();
+    }
+
+    document.getElementById('btnLangEs').addEventListener('click', () => setLandingLanguage('es'));
+    document.getElementById('btnLangEn').addEventListener('click', () => setLandingLanguage('en'));
+
+    // Generador del simulador en vivo interactivo
+    const demoTexts = {
+      es: "Scroll Word Reader te permite leer cualquier texto web, PDF o documento Word subrayando palabras secuencialmente mediante la rueda del ratón. Disfruta de lectura biónica, modo túnel con desenfoque y centrado continuo.",
+      en: "Scroll Word Reader enables you to read any website, PDF or Word document by highlighting words sequentially using your mouse wheel. Enjoy bionic reading, focus tunnel blur, and continuous screen centering."
+    };
+
+    let demoIndex = 0;
+    let demoWords = [];
+
+    function renderDemoWords() {
+      const demoBox = document.getElementById('demoBox');
+      demoBox.innerHTML = '';
+      const text = demoTexts[activeLang];
+      const rawWords = text.split(' ');
+      demoWords = [];
+      demoIndex = 0;
+
+      rawWords.forEach((word, idx) => {
+        const span = document.createElement('span');
+        span.className = 'demo-word';
+        span.dataset.idx = idx;
+
+        // Bionic reading preview
+        if (word.length > 2) {
+          const lead = word.substring(0, 1);
+          const rest = word.substring(1);
+          span.innerHTML = `<span class="demo-lead">${lead}</span>${rest}`;
+        } else {
+          span.textContent = word;
+        }
+
+        span.addEventListener('click', () => {
+          demoIndex = idx;
+          updateDemoHighlight();
+        });
+
+        demoBox.appendChild(span);
+        demoWords.push(span);
+      });
+
+      updateDemoHighlight();
+    }
+
+    function updateDemoHighlight() {
+      const windowSize = 2; // Ventana deslizante que avanza palabra por palabra (1 a 1)
+      demoWords.forEach((w, i) => {
+        const isHighlighted = (i >= demoIndex && i < demoIndex + windowSize);
+        w.classList.toggle('active-word', isHighlighted);
+      });
+
+      const total = demoWords.length;
+      const pct = Math.round(((demoIndex + 1) / total) * 100);
+      const statusEl = document.getElementById('demoStatus');
+      if (activeLang === 'es') {
+        statusEl.textContent = `Palabra ${demoIndex + 1} de ${total} (Ventana deslizante fluida de 2 palabras)`;
+      } else {
+        statusEl.textContent = `Word ${demoIndex + 1} of ${total} (Fluid 2-word sliding window)`;
+      }
+    }
+
+    const demoBoxEl = document.getElementById('demoBox');
+    let demoAccumulator = 0;
+
+    demoBoxEl.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      demoAccumulator += e.deltaY;
+      const threshold = 40;
+
+      if (Math.abs(demoAccumulator) >= threshold) {
+        const step = Math.trunc(demoAccumulator / threshold);
+        demoIndex = Math.max(0, Math.min(demoWords.length - 1, demoIndex + step));
+        demoAccumulator = 0;
+        updateDemoHighlight();
+      }
+    }, { passive: false });
+
+
+    // Auto-detección inteligente de GitHub Pages para descargar el ZIP del repositorio automáticamente
+    (function setupGitHubDownloadLinks() {
+      const host = window.location.hostname;
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if (host.endsWith('.github.io') && pathParts.length >= 1) {
+        const user = host.replace('.github.io', '');
+        const repo = pathParts[0];
+        const zipBtn = document.getElementById('btnDownloadZip');
+        const repoBtn = document.getElementById('btnViewRepo');
+        // Si tienes scroll-word-reader.zip en la raíz descarga ese; si prefieres el archivo directo de la rama main de GitHub:
+        if (repoBtn) {
+          repoBtn.href = `https://github.com/${user}/${repo}`;
+          repoBtn.target = '_blank';
+        }
+      }
+    })();
+
+    // Iniciar con español por defecto
+    setLandingLanguage('es');
+  </script>
+</body>
+</html>
